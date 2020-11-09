@@ -295,7 +295,7 @@ var _ = Describe("Load", func() {
 				expectedOutput: NewOptions(),
 			}),
 			Entry("with an empty LegacyOptions struct, should return default values", &testOptionsTableInput{
-				flagSet:        NewFlagSet,
+				flagSet:        NewLegacyFlagSet,
 				input:          &LegacyOptions{},
 				expectedOutput: NewLegacyOptions(),
 			}),

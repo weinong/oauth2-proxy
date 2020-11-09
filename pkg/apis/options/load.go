@@ -132,3 +132,31 @@ func isUnexported(name string) bool {
 	first := string(name[0])
 	return first == strings.ToLower(first)
 }
+
+// LoadYAML will load a YAML based configuration file into the options interface provided.
+func LoadYAML(configFileName string, into interface{}) error {
+	v := viper.New()
+	v.SetConfigFile(configFileName)
+	v.SetConfigType("yaml")
+	v.SetTypeByDefaultValue(true)
+
+	if configFileName != "" {
+		if err := v.ReadInConfig(); err != nil {
+			return fmt.Errorf("unable to load config file: %w", err)
+		}
+	}
+
+	// UnmarhsalExact will return an error if the config includes options that are
+	// not mapped to felds of the into struct
+	if err := v.UnmarshalExact(into, decodeFromYAMLTag); err != nil {
+		return fmt.Errorf("error unmarshalling config: %w", err)
+	}
+
+	return nil
+}
+
+// decodeFromYAMLTag sets the Viper decoder to read the names from the `yaml` tag
+// on each struct entry.
+func decodeFromYAMLTag(c *mapstructure.DecoderConfig) {
+	c.TagName = "yaml"
+}
