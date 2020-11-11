@@ -1,10 +1,10 @@
 package options
 
 type AlphaOptions struct {
-	Upstreams Upstreams `json:"upstreams"`
+	Upstreams Upstreams `yaml:"upstreams,omitempty"`
 
-	InjectRequestHeaders  []Header `json:"injectRequestHeaders"`
-	InjectResponseHeaders []Header `json:"injectResponseHeaders"`
+	InjectRequestHeaders  []Header `yaml:"injectRequestHeaders,omitempty"`
+	InjectResponseHeaders []Header `yaml:"injectResponseHeaders,omitempty"`
 }
 
 func (a *AlphaOptions) MergeInto(opts *Options) {
